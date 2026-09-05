@@ -1,0 +1,49 @@
+---
+export interface Props {
+  title?: string;
+  active?: 'home' | 'about' | 'skills' | 'gallery' | 'blog' | 'contact';
+  bodyClass?: string;
+}
+
+const { title = 'Personal Homepage', active = '', bodyClass = '' } = Astro.props;
+
+const navItems = [
+  { key: 'home', href: '/', label: 'Home' },
+  { key: 'about', href: '/about', label: 'About Me' },
+  { key: 'skills', href: '/skills', label: 'Skill' },
+  { key: 'gallery', href: '/gallery', label: 'Portofolio Gallery' },
+  { key: 'blog', href: '/blog', label: 'Blog' },
+  { key: 'contact', href: '/contact', label: 'Contact' },
+];
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" />
+    <slot name="head" />
+  </head>
+
+  <body class={bodyClass}>
+    <header class="header">
+      <a href="/" class="logo">Natalio</a>
+
+      <div class="bx bx-menu" id="menu-icon"></div>
+      <nav class="navbar">
+        {navItems.map((item) => (
+          <a href={item.href} class={active === item.key ? 'active' : ''}>
+            {item.label}
+          </a>
+        ))}
+        <span class="active-nav"></span>
+      </nav>
+    </header>
+
+    <slot />
+
+    <script src="/script.js" is:inline></script>
+  </body>
+</html>

@@ -1,0 +1,6 @@
+node_modules/
+dist/
+.astro/
+data/contact-submissions.json
+.env
+.DS_Store

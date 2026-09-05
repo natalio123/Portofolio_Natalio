@@ -1,0 +1,207 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { projects } from '../../data/gallery.js';
+
+export const prerender = true;
+
+// Membuat rute statis otomatis untuk setiap item di gallery.js (/gallery/1, /gallery/2, dst.)
+export function getStaticPaths() {
+  return projects.map((project) => ({
+    params: { id: String(project.id) },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+---
+
+<Layout title={`${project.title} — Personal Homepage`} active="gallery">
+  <Fragment slot="head">
+    <link rel="stylesheet" href="/styles/gallery.css" />
+    <style>
+      .project-detail {
+        min-height: 100vh;
+        padding: 12rem 9% 6rem;
+        background: var(--second-bg-color);
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+      }
+
+      .project-detail .wrapper {
+        max-width: 90rem;
+        width: 100%;
+        background-color: var(--bg-color);
+        border-radius: 0.8rem;
+        padding: 3.5rem;
+        box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.4);
+      }
+
+      .project-detail .main-img {
+        width: 100%;
+        max-height: 450px;
+        object-fit: cover;
+        border-radius: 0.6rem;
+        margin-bottom: 2.5rem;
+        box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.2);
+      }
+
+      .project-detail h2 {
+        font-size: 3.2rem;
+        margin-bottom: 1.5rem;
+        line-height: 1.3;
+      }
+
+      .project-detail .tools {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.8rem;
+        margin-bottom: 2.5rem;
+      }
+
+      .project-detail .tools span {
+        background: var(--second-bg-color);
+        color: var(--text-color);
+        border: 0.1rem solid rgba(255, 255, 255, 0.15);
+        padding: 0.4rem 1.4rem;
+        border-radius: 2rem;
+        font-size: 1.2rem;
+        font-weight: 600;
+      }
+
+      .project-detail .back-btn {
+        display: inline-block;
+        margin-top: 2.5rem;
+        padding: 1rem 2.2rem;
+        background: var(--main-color);
+        color: var(--second-bg-color);
+        font-weight: 600;
+        font-size: 1.4rem;
+        border-radius: 0.6rem;
+        border: 0.2rem solid var(--main-color);
+        transition: 0.3s;
+      }
+
+      .project-detail .back-btn:hover {
+        background: transparent;
+        color: var(--main-color);
+      }
+
+      /* Formatting Konten HTML Dinamis */
+      .detail-content {
+        font-size: 1.5rem;
+        line-height: 1.8;
+        color: var(--text-color);
+      }
+
+      .detail-content :global(h4) {
+        font-size: 2rem;
+        color: var(--main-color);
+        margin: 2.5rem 0 1rem;
+      }
+
+      .detail-content :global(p) {
+        font-size: 1.5rem;
+        line-height: 1.8;
+        text-align: justify;
+        margin-bottom: 1.5rem;
+      }
+
+      .detail-content :global(ul),
+      .detail-content :global(ol) {
+        margin-left: 2.5rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .detail-content :global(li) {
+        margin-bottom: 0.5rem;
+      }
+
+      .detail-content :global(hr) {
+        border: none;
+        border-top: 0.1rem solid rgba(255, 255, 255, 0.2);
+        margin: 3rem 0;
+      }
+
+      .detail-content :global(code) {
+        background: var(--second-bg-color);
+        padding: 0.2rem 0.6rem;
+        border-radius: 0.4rem;
+        font-size: 1.3rem;
+      }
+
+      /* Container Gambar di Dalam Detail */
+      .detail-content :global(.modal-img-box) {
+        margin: 2rem 0;
+        text-align: center;
+        background: var(--second-bg-color);
+        padding: 1.5rem;
+        border-radius: 0.8rem;
+      }
+
+      .detail-content :global(.modal-img-box img) {
+        width: 100%;
+        height: auto;
+        border-radius: 0.6rem;
+        display: block;
+        margin: 0 auto;
+        background-color: #ffffff;
+        padding: 1.2rem;
+      }
+
+      .detail-content :global(.modal-img-box .caption) {
+        font-size: 1.2rem;
+        color: rgba(237, 237, 237, 0.8);
+        margin-top: 1rem;
+        margin-bottom: 0;
+        font-style: italic;
+        text-align: center;
+      }
+
+      .detail-content :global(.img-grid-2) {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+        margin: 2rem 0;
+      }
+
+      .detail-content :global(.img-grid-2 .modal-img-box) {
+        margin: 0;
+      }
+
+      @media (max-width: 768px) {
+        .project-detail {
+          padding: 10rem 5% 4rem;
+        }
+
+        .project-detail .wrapper {
+          padding: 2.5rem 2rem;
+        }
+
+        .project-detail h2 {
+          font-size: 2.4rem;
+        }
+
+        .detail-content :global(.img-grid-2) {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </Fragment>
+
+  <section class="project-detail">
+    <div class="wrapper">
+      <img src={project.src} alt={project.title} class="main-img" />
+      <h2>{project.title}</h2>
+
+      <div class="tools">
+        {project.tools?.map((tool) => <span>{tool}</span>)}
+      </div>
+
+      <!-- Render konten string HTML secara native -->
+      <div class="detail-content" set:html={project.detail} />
+
+      <a href="/gallery" class="back-btn">&larr; Back to the Gallery</a>
+    </div>
+  </section>
+</Layout>

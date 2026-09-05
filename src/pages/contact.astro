@@ -1,0 +1,66 @@
+---
+import Layout from '../layouts/Layout.astro';
+// Halaman statis penuh. Tidak ada query/koneksi database sama sekali di sini -
+// form ditangani murni di sisi client (lihat <script> di bawah).
+export const prerender = true;
+---
+
+<Layout title="Personal Homepage" active="contact">
+  <Fragment slot="head">
+    <link rel="stylesheet" href="/styles/contact.css" />
+  </Fragment>
+
+  <section class="contact" id="contact">
+    <h2 class="heading">Contact <span>Me!</span></h2>
+
+    <p id="form-message" style="text-align:center; margin-bottom: 1rem; min-height: 1.5em;"></p>
+
+    <form id="contact-form">
+      <div class="box">
+        <div class="field">
+          <input type="text" id="nama" name="nama" placeholder="Full Name" required />
+          <span class="focus"></span>
+        </div>
+        <div class="field">
+          <input type="text" id="email" name="email" placeholder="Email Address" required />
+          <span class="focus"></span>
+        </div>
+      </div>
+
+      <div class="box">
+        <div class="field">
+          <input type="text" id="nomor-telepon" name="nomor-telepon" placeholder="Mobile Number" required />
+          <span class="focus"></span>
+        </div>
+        <div class="field">
+          <input type="text" id="email-subject" name="email-subject" placeholder="Email Subject" required />
+          <span class="focus"></span>
+        </div>
+      </div>
+
+      <div class="textarea-field">
+        <textarea name="message" id="message" cols="30" rows="10" placeholder="Your Message" required></textarea>
+        <span class="focus"></span>
+      </div>
+
+      <div class="button-submit">
+        <button type="submit" class="button">Submit</button>
+      </div>
+    </form>
+  </section>
+
+  <script>
+    // Form ini murni jalan di sisi client, tanpa database/API.
+    // Validasi field wajib memakai atribut HTML `required` bawaan browser;
+    // setelah lolos validasi, cukup tampilkan pesan sukses lalu reset form.
+    const form = document.getElementById('contact-form') as HTMLFormElement | null;
+    const messageEl = document.getElementById('form-message');
+
+    form?.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      if (messageEl) messageEl.textContent = 'Pesan berhasil dikirim, terima kasih!';
+      form.reset();
+    });
+  </script>
+</Layout>

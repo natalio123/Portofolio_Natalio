@@ -1,0 +1,67 @@
+---
+import Layout from '../layouts/Layout.astro';
+export const prerender = true;
+---
+
+<Layout title="Personal Homepage" active="skills">
+  <Fragment slot="head">
+    <link rel="stylesheet" href="/styles/skills.css" />
+  </Fragment>
+
+  <section class="skills">
+    <h2 class="heading">My <span>Skills</span></h2>
+
+    <div class="row">
+      <div class="column">
+        <h3 class="title">Coding Skills</h3>
+
+        <div class="box">
+          <div class="content">
+            <div class="progress">
+              <h3>Python <span>90%</span></h3>
+              <div class="bar"><span></span></div>
+            </div>
+
+            <div class="progress">
+              <h3>SQL <span>95%</span></h3>
+              <div class="bar"><span></span></div>
+            </div>
+
+            <div class="progress">
+              <h3>R<span>75%</span></h3>
+              <div class="bar"><span></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <h3 class="title">Professional Skiils</h3>
+
+        <div class="box">
+          <div class="content">
+            <div class="progress">
+              <h3>Math & Statistics<span>80%</span></h3>
+              <div class="bar"><span></span></div>
+            </div>
+
+            <div class="progress">
+              <h3>Ms Excel <span>95%</span></h3>
+              <div class="bar"><span></span></div>
+            </div>
+
+            <div class="progress">
+              <h3>Business <span>75%</span></h3>
+              <div class="bar"><span></span></div>
+            </div>
+
+            <div class="progress">
+              <h3>Communication<span>85%</span></h3>
+              <div class="bar"><span></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

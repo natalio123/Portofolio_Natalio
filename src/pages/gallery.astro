@@ -1,0 +1,29 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { projects } from '../data/gallery.js';
+export const prerender = true;
+---
+
+<Layout title="Personal Homepage" active="gallery">
+  <Fragment slot="head">
+    <link rel="stylesheet" href="/styles/gallery.css" />
+  </Fragment>
+
+  <section class="gallery" id="gallery">
+    <h2>Portofolio <span>Gallery</span></h2>
+    <div class="row">
+      {projects.map((project) => (
+        <div class="column">
+          <div class="content">
+            <img src={project.src} alt={project.title} style="width: 100%" />
+            <h3>{project.title}</h3>
+            <p>{project.desc}</p>
+            <a href={`/gallery/${project.id}`} class="detail-btn">View details</a>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <script src="/gallery.js" is:inline></script>
+</Layout>

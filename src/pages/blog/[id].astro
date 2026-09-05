@@ -1,0 +1,92 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { posts } from '../../data/blog.js';
+
+export const prerender = true;
+
+// Menggantikan `SELECT ... WHERE id = $article_id LIMIT 1` pada blog_detail.php:
+// setiap artikel di-generate jadi halaman statis /blog/[id] saat build.
+export function getStaticPaths() {
+  return posts.map((post) => ({
+    params: { id: String(post.id) },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+---
+
+<Layout title="Personal Homepage" active="blog">
+  <Fragment slot="head">
+    <link rel="stylesheet" href="/styles/index_blog.css" />
+    <style>
+      /* Halaman detail blog dulunya (blog_detail.php) memakai navbar_blog.php
+         yang punya header sendiri. Sekarang header/nav dipakai bareng lewat
+         Layout.astro, jadi style header di sini cukup override warna body saja
+         supaya kontras dengan kartu artikel; nav & responsivitasnya sudah
+         disuplai oleh index_blog.css yang di-link di atas. */
+      body {
+        font-family: Arial, sans-serif;
+      }
+      main {
+        padding: 12rem 5% 4rem;
+        max-width: 900px;
+        margin: 0 auto;
+      }
+      main article {
+        display: block;
+        background-color: var(--second-bg-color, #112e42);
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        margin-bottom: 20px;
+      }
+      main article img {
+        width: 100%;
+        max-width: 400px;
+        display: block;
+        margin: 1rem auto;
+        border-radius: 5px;
+      }
+      main article p {
+        text-align: justify;
+      }
+      main a {
+        color: var(--main-color, #00abf0);
+      }
+
+      @media (max-width: 768px) {
+        main {
+          padding: 10rem 5% 4rem;
+        }
+      }
+    </style>
+  </Fragment>
+
+  <main>
+    <article>
+      <h2>Welcome My Blog</h2>
+      <p>Posted on <span id="post-date"></span> by <strong>Admin</strong></p>
+
+      {post && (
+        <>
+          <h3>{post.judul}</h3>
+          <img src={post.gambar} alt={post.judul} />
+          <p>{post.konten1}</p>
+          <p>{post.konten2}</p>
+        </>
+      )}
+    </article>
+
+    <p><a href="/blog">&larr; Kembali ke daftar blog</a></p>
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const postDate = document.getElementById('post-date');
+      const today = new Date();
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      if (postDate) postDate.textContent = today.toLocaleDateString(undefined, options);
+    });
+  </script>
+</Layout>

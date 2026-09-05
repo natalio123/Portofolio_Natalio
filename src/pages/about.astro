@@ -1,0 +1,34 @@
+---
+import Layout from '../layouts/Layout.astro';
+export const prerender = true;
+---
+
+<Layout title="Personal Homepage" active="about">
+  <Fragment slot="head">
+    <link rel="stylesheet" href="/styles/about.css" />
+  </Fragment>
+
+  <section id="about">
+    <h2>About <span>Me</span></h2>
+    <div class="img">
+      <img src="/gambar/pp.jpeg" alt="Foto profil Natalio" />
+      <span class="garis-lingkaran"></span>
+    </div>
+
+    <div class="content">
+      <h3>Data Scientist</h3>
+      <p>
+        <p>
+  A recent Informatics Engineering graduate (S.Kom) from Sam Ratulangi University, Manado (2022–2026), graduating with a GPA of 3.89/4.00. 
+  I specialize in Data Science, Machine Learning, and Data Engineering, bridging rigorous academic theory with proven industry and leadership experience. 
+  My background spans working as a Data Engineer Intern at PT Telkom Akses Manado where I optimized relational databases, normalized procurement datasets, 
+  and verified multi-column system data—to serving as a Google Student Ambassador leading AI adoption and technical workshops on campus. 
+  As a Machine Learning graduate from Bangkit Academy (Google, GoTo, Traveloka), I built end-to-end predictive systems, fine-tuned machine learning models, 
+  and collaborated on cloud deployment for healthcare solutions (FitGuard). In addition to technical certifications in Python, SQL, Power BI, and TensorFlow, 
+  my foundational accuracy and adaptability are reinforced by hands-on data collection and verification roles for KPU RI, as well as a 4th-place finish in a National University Physics Olympiad. 
+  I am driven to leverage end-to-end data pipelines and intelligent models to deliver scalable, real-world solutions.
+</p>
+      </p>
+    </div>
+  </section>
+</Layout>
