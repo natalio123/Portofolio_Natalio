@@ -486,7 +486,7 @@ export const projects = [
       <h4>1. Data Understanding </h4>
       <p><strong>Key Insights:</strong></p>
       <ul>
-        <li>A total of 1,223,109 missing values were identified in the current components (utide, vtide) of the Copernicus data; these were handled using the zero-imputation method based on the technical assumption that the current is zero at those points.</li>
+        <li>A total of 2,446,218 missing values were identified in the current components (utide, vtide) of the Copernicus data; these were handled using the zero-imputation method based on the technical assumption that the current is zero at those points.</li>
         <li>Duplicate data were found in the Likupang observation dataset (3,807 rows) and the Likupang tide data (81 rows); both were removed to maintain statistical validity.</li>
         <li>Box plot analysis revealed extreme values in the tidal range; based on domain verification, these values were retained because they represent a real physical phenomenon (spring tides), not data anomalies.</li>
         <li>The tidal pattern at the study site (Bitung Station) was confirmed to be of the <em>Mixed, Prevailing Semidiurnal</em> type, characterized by two high tides and two low tides per day with varying heights.</li>
@@ -553,19 +553,19 @@ export const projects = [
           <tbody>
             <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
               <td style="padding: 8px;">RF</td>
-              <td style="padding: 8px; text-align: center;">0.9707</td>
-              <td style="padding: 8px; text-align: center;">0.9711</td>
-              <td style="padding: 8px; text-align: center;">0.9707</td>
-              <td style="padding: 8px; text-align: center;">0.9708</td>
-              <td style="padding: 8px; text-align: center;">0.9561</td>
+              <td style="padding: 8px; text-align: center;">0.9730</td>
+              <td style="padding: 8px; text-align: center;">0.9733</td>
+              <td style="padding: 8px; text-align: center;">0.9730</td>
+              <td style="padding: 8px; text-align: center;">0.9730</td>
+              <td style="padding: 8px; text-align: center;">0.9595</td>
             </tr>
             <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
               <td style="padding: 8px;"><strong>XGB</strong></td>
-              <td style="padding: 8px; text-align: center;"><strong>0.9797</strong></td>
-              <td style="padding: 8px; text-align: center;"><strong>0.9800</strong></td>
-              <td style="padding: 8px; text-align: center;"><strong>0.9797</strong></td>
-              <td style="padding: 8px; text-align: center;"><strong>0.9797</strong></td>
-              <td style="padding: 8px; text-align: center;"><strong>0.9696</strong></td>
+              <td style="padding: 8px; text-align: center;"><strong>0.9775</strong></td>
+              <td style="padding: 8px; text-align: center;"><strong>0.9778</strong></td>
+              <td style="padding: 8px; text-align: center;"><strong>0.9775</strong></td>
+              <td style="padding: 8px; text-align: center;"><strong>0.9775</strong></td>
+              <td style="padding: 8px; text-align: center;"><strong>0.9662</strong></td>
             </tr>
             <tr>
               <td style="padding: 8px;">SVM</td>
