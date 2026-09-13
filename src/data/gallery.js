@@ -782,43 +782,44 @@ export const projects = [
     id: 9,
     src: '/gambar/9.jpg',
     title: 'FitGuard: A Cluster-Based Model for Predicting Diabetes Risk and Providing Nutritional Recommendations',
-    desc: 'An Artificial Neural Network (ANN) model for predicting diabetes risk from clinical data, combined with K-Means clustering and threshold-based rules to generate personalized nutrition recommendations—part of the Bangkit FitGuard Capstone Project (Team C242-PS402).',
+    desc: 'An Artificial Neural Network (ANN) model for predicting diabetes risk from clinical data, combined with K-Means clustering and threshold-based rules to generate personalized nutrition recommendations — part of the Bangkit FitGuard Capstone Project (Team C242-PS402).',
     detail: `
       <h4>Project Overview</h4>
-      <p>Diabetes mellitus is one of the major health issues in Indonesia, with the number of people living with the disease continuing to rise each year; in fact, Indonesia is listed as one of the countries with the highest number of diabetes cases in the world, and awareness of diabetes among young people remains relatively low. Many people with diabetes struggle to manage their daily care on their own—such as medication schedules, diet, exercise, and fluid intake—which, if left uncontrolled, can lead to complications and reduce quality of life.</p>
-      <p><strong>FitGuard</strong> was developed as a solution to this problem: a mobile app that helps people with diabetes manage their daily care more easily through personalized reminders for medication, meals, exercise, and hydration, while also tracking users' health data. Compared to existing similar apps (such as Klik Diabetes), FitGuard sets itself apart by integrating machine learning to provide personalized recommendations—not just reminders, but also a data-driven approach to more proactive diabetes management. The complete project code is available via the following repositories: <a href="https://github.com/natalio123/FitGuard.git" target="_blank">FitGuard GitHub Repository</a>.</p>
+      <p>Diabetes mellitus is one of the major health issues in Indonesia, with the number of people living with the disease continuing to rise each year; in fact, Indonesia is listed as one of the countries with the highest number of diabetes cases in the world, and awareness of diabetes among young people remains relatively low. Many people with diabetes struggle to manage their daily care on their own — such as medication schedules, diet, exercise, and fluid intake — which, if left uncontrolled, can lead to complications and reduce quality of life.</p>
+      <p><strong>FitGuard</strong> was developed as a solution to this problem: a mobile app that helps people with diabetes manage their daily care more easily through personalized reminders for medication, meals, exercise, and hydration, while also tracking users' health data. Compared to existing similar apps (such as Klik Diabetes), FitGuard sets itself apart by integrating machine learning to provide personalized recommendations — not just reminders, but also a data-driven approach to more proactive diabetes management. The complete project code is available via the following repository: <a href="https://github.com/natalio123/FitGuard.git" target="_blank">FitGuard GitHub Repository</a>.</p>
+      <p><em>Project status note: the diabetes-risk prediction model and the nutrition recommendation module described below were fully built, trained, and evaluated as a standalone ML component. Due to a synchronization gap between the Cloud Computing and Mobile Development sub-teams during the Capstone timeline, this ML component was not fully wired into the live mobile app shown in the interface section — the app itself runs on manual health tracking features, while the ML prediction/recommendation logic is demonstrated separately via notebook and API testing.</em></p>
   
       <hr />
   
       <h4>Application Workflow</h4>
       <div class="modal-img-box" style="text-align: center;">
         <img src="/gambar/9-workflow.jpg" alt="FitGuard Application Workflow Diagram" style="max-width: 100%; border-radius: 8px;" />
-        <p class="caption">App workflow: User registration/login is validated by the backend, then health data (pregnancy, glucose, blood pressure, insulin, BMI, age) is entered to generate predictions and recommendations from the model.</p>
+        <p class="caption">App workflow: user registration/login is validated by the backend, then health data (pregnancies, glucose, blood pressure, insulin, BMI, age) is entered to generate predictions and recommendations from the model.</p>
       </div>
   
       <hr />
   
       <h4>App Interface</h4>
       <div class="modal-img-box" style="text-align: center;">
-      <img src="/gambar/9-dashboard.jpg" alt="FitGuard app interface" style="max-width: 100%; border-radius: 8px;" />
-      <p class="caption">Onboarding flow to the main dashboard: welcome page, account registration, email verification, health data entry (pregnancy, blood glucose, blood pressure, date of birth, weight & height) with automatic BMI calculation, followed by the main dashboard featuring Nutrition Tracker, Water Intake, Health Log (blood glucose, blood pressure, insulin dose), Physical Activity, and Medication Reminders.</p>
+        <img src="/gambar/9-dashboard.jpg" alt="FitGuard app interface" style="max-width: 100%; border-radius: 8px;" />
+        <p class="caption">Onboarding flow to the main dashboard: welcome page, account registration, email verification, health data entry (pregnancies, blood glucose, blood pressure, date of birth, weight & height) with automatic BMI calculation, followed by the main dashboard featuring Nutrition Tracker, Water Intake, Health Log (blood glucose, blood pressure, insulin dose), Physical Activity, and Medication Reminders.</p>
       </div>
   
       <hr />
   
       <h4>App Demo</h4>
-      <p>Video demo aplikasi FitGuard dapat dilihat di sini: <a href="https://drive.google.com/file/d/19LuGLg-CMBrcK2k0UyKz0Zx_mCBR2w2c/view?usp=sharing" target="_blank">Watch the FitGuard Demo</a></p>
+      <p>A demo video of the FitGuard app is available here: <a href="https://drive.google.com/file/d/19LuGLg-CMBrcK2k0UyKz0Zx_mCBR2w2c/view?usp=sharing" target="_blank">Watch the FitGuard Demo</a></p>
   
       <hr />
   
-      <h4>Technical Approach & Rationale for Its Selection</h4>
+      <h4>Technical Approach & Rationale</h4>
       <ul>
-        <li><strong>Data cleaning:</strong> Outliers in each numerical feature were removed using the IQR (Interquartile Range) method, with lower and upper bounds set at Q1 - 1.5xIQR and Q3 + 1.5xIQR, respectively, to reduce the influence of extreme values on model training.</li>
-        <li><strong>Feature scaling:</strong> all numerical features are normalized using <code>StandardScaler</code> before being fed into the neural network, as ANNs are sensitive to non-uniform feature scales.</li>
+        <li><strong>Data cleaning:</strong> outliers in each numerical feature were removed using the IQR (Interquartile Range) method, with lower and upper bounds set at Q1 − 1.5×IQR and Q3 + 1.5×IQR, respectively, to reduce the influence of extreme values on model training.</li>
+        <li><strong>Feature scaling:</strong> all numerical features were normalized using <code>StandardScaler</code> before being fed into the neural network, as ANNs are sensitive to non-uniform feature scales.</li>
         <li><strong>Model architecture:</strong> a feedforward ANN (<code>Sequential</code>) with 3 Dense hidden layers (64 → 32 → 16 units, ReLU activation) and <code>Dropout</code> (0.2) between the first and second layers to prevent overfitting, followed by a sigmoid output layer for binary classification.</li>
-        <li><strong>Optimizer & callbacks:</strong> trained with <code>RMSprop</code> (learning rate 1e-3), as well as <code>EarlyStopping</code>, <code>ModelCheckpoint</code>, and <code>ReduceLROnPlateau</code> to automatically stop training when validation does not improve and save the best weights.</li>
-        <li><strong>Adjusted decision threshold:</strong> the classification threshold was lowered from the default of 0.5 to 0.45 during the evaluation phase, as an adjustment for class imbalance (Outcome 1 accounts for only ~35% of the data) to prevent the recall for the diabetes class from being too low.</li>
-        <li><strong>Nutrition recommendations — a combination of two methods:</strong>
+        <li><strong>Optimizer & callbacks:</strong> trained with <code>RMSprop</code> (learning rate 1e-3), along with <code>EarlyStopping</code>, <code>ModelCheckpoint</code>, and <code>ReduceLROnPlateau</code> to automatically stop training when validation performance plateaued and to save the best weights.</li>
+        <li><strong>Adjusted decision threshold:</strong> the classification threshold was lowered from the default 0.5 to 0.45 during evaluation, to compensate for class imbalance (the positive Outcome class accounts for only ~35% of the data) and prevent recall on the diabetes class from being too low.</li>
+        <li><strong>Nutrition recommendations — two combined methods:</strong>
           <ul>
             <li>Threshold-based rules (glucose ≥140 or BMI ≥30 → low-carbohydrate diet; age ≥50 & BMI <25 → low-fat diet; etc.) for easily interpretable recommendations.</li>
             <li><strong>K-Means clustering</strong> (k=3) on all patient features to group patients into 3 nutritional profiles, each mapped to a fixed recommendation template.</li>
@@ -833,7 +834,7 @@ export const projects = [
         <table style="width: 100%; border-collapse: collapse; font-size: 1.3rem;">
           <thead>
             <tr style="border-bottom: 2px solid rgba(255,255,255,0.2); color: var(--main-color);">
-              <th style="padding: 8px; text-align: left;">Metrics/th>
+              <th style="padding: 8px; text-align: left;">Metric</th>
               <th style="padding: 8px; text-align: center;">Value</th>
             </tr>
           </thead>
@@ -843,15 +844,15 @@ export const projects = [
               <td style="padding: 8px; text-align: center;">0.75</td>
             </tr>
             <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
-              <td style="padding: 8px;">Precision (kelas Diabetes)</td>
+              <td style="padding: 8px;">Precision (Diabetes class)</td>
               <td style="padding: 8px; text-align: center;">0.61</td>
             </tr>
             <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
-              <td style="padding: 8px;">Recall (kelas Diabetes)</td>
+              <td style="padding: 8px;">Recall (Diabetes class)</td>
               <td style="padding: 8px; text-align: center;">0.47</td>
             </tr>
             <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
-              <td style="padding: 8px;">F1-score (Diabetes Class)</td>
+              <td style="padding: 8px;">F1-score (Diabetes class)</td>
               <td style="padding: 8px; text-align: center;">0.53</td>
             </tr>
             <tr>
@@ -867,15 +868,15 @@ export const projects = [
   
       <h4>Final System Features</h4>
       <ul>
-        <li>The prediction endpoint accepts clinical inputs (pregnancies, glucose, blood pressure, insulin, BMI, age, etc.) and returns a diabetes risk status (yes/no).</li>
-        <li>The prediction output includes personalized nutrition recommendations, which are the result of combining threshold rules and the patient's K-Means clustering results.</li>
-        <li>The model is saved in <code>.h5</code> / Keras format for integration into the FitGuard API backend (Node.js + Cloud Run) and presentation in the mobile app.</li>
+        <li>The diabetes-risk ANN model and the nutrition recommendation module (K-Means + threshold rules) were fully trained and evaluated independently in notebooks, with the results shown in the table above.</li>
+        <li>The model was saved in <code>.h5</code> / Keras format, intended to be served through the FitGuard backend API (Node.js + Cloud Run) to the mobile app.</li>
+        <li><em>Note: by the end of the development period, full integration between the ML model and the mobile app was not completed, due to a synchronization gap between the Cloud Computing and Mobile Development teams. The manual tracking features (nutrition, water intake, health log, physical activity, medication reminders) are functional on the real device, while the ML-driven risk prediction and nutrition recommendation outputs remain at the notebook/API stage and are planned as a next step.</em></li>
       </ul>
   
       <hr />
   
       <h4>My Contribution</h4>
-      <p>SI conducted experiments and made adjustments to the ANN model for diabetes risk prediction, including outlier removal, feature scaling, architectural design (number of layers, dropout), selection of the optimizer and callback, and adjustment of the classification threshold, and integrated it with the K-Means clustering module to generate personalized nutrition recommendations.</p>
+      <p>I conducted experiments and made adjustments to the ANN model for diabetes risk prediction — including outlier removal, feature scaling, architectural design (number of layers, dropout), selection of the optimizer and callbacks, and adjustment of the classification threshold — and integrated it with the K-Means clustering module to generate personalized nutrition recommendations. The model and its prediction API were completed and tested, though end-to-end integration into the mobile app was not finished within the Capstone period due to cross-team synchronization issues.</p>
     `,
     tools: ['Python', 'TensorFlow/Keras', 'Scikit-learn', 'K-Means', 'Pandas', 'StandardScaler'],
   },
