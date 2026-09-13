@@ -781,7 +781,7 @@ export const projects = [
   {
     id: 9,
     src: '/gambar/9.jpg',
-    title: 'FitGuard: Model Prediksi Risiko Diabetes & Rekomendasi Gizi Berbasis Pengelompokan',
+    title: 'FitGuard: A Cluster-Based Model for Predicting Diabetes Risk and Providing Nutritional Recommendations',
     desc: 'An Artificial Neural Network (ANN) model for predicting diabetes risk from clinical data, combined with K-Means clustering and threshold-based rules to generate personalized nutrition recommendations—part of the Bangkit FitGuard Capstone Project (Team C242-PS402).',
     detail: `
       <h4>Project Overview</h4>
