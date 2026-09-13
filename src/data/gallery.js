@@ -800,7 +800,7 @@ export const projects = [
   
       <h4>App Interface</h4>
       <div class="modal-img-box" style="text-align: center;">
-      <img src="/images/9-dashboard.jpg" alt="FitGuard app interface" style="max-width: 100%; border-radius: 8px;" />
+      <img src="/gambar/9-dashboard.jpg" alt="FitGuard app interface" style="max-width: 100%; border-radius: 8px;" />
       <p class="caption">Onboarding flow to the main dashboard: welcome page, account registration, email verification, health data entry (pregnancy, blood glucose, blood pressure, date of birth, weight & height) with automatic BMI calculation, followed by the main dashboard featuring Nutrition Tracker, Water Intake, Health Log (blood glucose, blood pressure, insulin dose), Physical Activity, and Medication Reminders.</p>
       </div>
   
