@@ -44,7 +44,10 @@ body {
     left: 0;
     width: 100%;
     padding: 2rem 9%;
-    background: transparent;
+    background: rgba(8, 27, 41, 0.85);
+    backdrop-filter: blur(1rem);
+    -webkit-backdrop-filter: blur(1rem);
+    box-shadow: 0 0.2rem 1rem rgba(0, 0, 0, 0.3);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -96,6 +99,17 @@ section {
 
 .row .column {
     flex: 1 1 40rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.column .box {
+    flex: 1;
+    display: flex;
+}
+
+.box .content {
+    width: 100%;
 }
 
 .column .title {
@@ -156,40 +170,7 @@ section {
     background: var(--main-color);
 }
 
-.column:nth-child(1) .content .progress:nth-child(1) .bar span {
-    width: 90%;
-}
-
-.column:nth-child(1) .content .progress:nth-child(2) .bar span {
-    width: 95%;
-}
-
-.column:nth-child(1) .content .progress:nth-child(3) .bar span {
-    width: 75%;
-}
-
-.content .progress .bar span {
-    display: block;
-    height: 100%;
-    border-radius: .3rem;
-    background: var(--main-color);
-}
-
-.column:nth-child(2) .content .progress:nth-child(1) .bar span {
-    width: 80%;
-}
-
-.column:nth-child(2) .content .progress:nth-child(2) .bar span {
-    width: 95%;
-}
-
-.column:nth-child(2) .content .progress:nth-child(3) .bar span {
-    width: 75%;
-}
-
-.column:nth-child(2) .content .progress:nth-child(4) .bar span {
-    width: 85%;
-}
+/* Skill bar widths are defined in skill-bars.css */
 
 /* ============ RESPONSIVE ============ */
 
@@ -247,6 +228,10 @@ section {
 
     .row .column {
         flex: 1 1 100%;
+    }
+
+    .column .box {
+        flex: 0 1 auto;
     }
 }
 
