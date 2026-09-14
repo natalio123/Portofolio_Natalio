@@ -876,7 +876,7 @@ export const projects = [
       <hr />
   
       <h4>My Contribution</h4>
-      <p>I conducted experiments and made adjustments to the ANN model for diabetes risk prediction — including outlier removal, feature scaling, architectural design (number of layers, dropout), selection of the optimizer and callbacks, and adjustment of the classification threshold — and integrated it with the K-Means clustering module to generate personalized nutrition recommendations. The model and its prediction API were completed and tested, though end-to-end integration into the mobile app was not finished within the Capstone period due to cross-team synchronization issues.</p>
+      <p> I conducted experiments and made adjustments to the ANN model for diabetes risk prediction — including outlier removal, feature scaling, architectural design (number of layers, dropout), selection of the optimizer and callbacks, and adjustment of the classification threshold — and integrated it with the K-Means clustering module to generate personalized nutrition recommendations. The model and its prediction API were completed and tested, though end-to-end integration into the mobile app was not finished within the Capstone period due to cross-team synchronization issues.</p>
     `,
     tools: ['Python', 'TensorFlow/Keras', 'Scikit-learn', 'K-Means', 'Pandas', 'StandardScaler'],
   },
