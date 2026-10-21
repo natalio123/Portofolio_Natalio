@@ -197,7 +197,7 @@ export const projects = [
       <p>The detector is served through a mobile-friendly web app. The phone camera sends one frame at a time to the backend, which returns the commodity, status, confidence, and bounding boxes; the app draws the boxes live and averages the last 5 frames so the status does not flicker.</p>
 
       <div class="modal-img-box">
-        <img src="/gambar/demo_scan.gif" alt="RicaWatch web application" />
+        <img src="/gambar/demo_scan.gif" alt="RicaWatch web application" style="width:100%; max-width:300px; border-radius:12px;" />
         <p class="caption">Figure 6: RicaWatch Live Scan Web Application</p>
       </div>
 
