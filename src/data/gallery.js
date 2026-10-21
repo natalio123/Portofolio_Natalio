@@ -139,7 +139,7 @@ export const projects = [
       <p><strong>Layer 2: Computer Vision (YOLOv8).</strong> A detector (pilot v2) classifies <code>Tomat_Segar</code>, <code>Tomat_Menurun</code>, and <code>Cabai</code>. In v2, fresh and declining chili are merged, so chili is only detected, not graded.</p>
 
       <div class="modal-img-box">
-        <img src="/gambar/ricawatch-yolo-detection.png" alt="YOLOv8 detection of tomato and chili" />
+        <img src="/gambar/ricawatch-yolo-detection.png" alt="YOLOv8 detection of tomato and chili" style="width:100%; max-width:300px; border-radius:12px;" />
         <p class="caption">Figure 4: YOLOv8 Detection of Tomato and Chili (Pilot v2)</p>
       </div>
 
