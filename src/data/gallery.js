@@ -4,6 +4,237 @@
 export const projects = [
   {
     id: 1,
+    src: '/gambar/RicaWatch Top 10 National Finals.png',
+    title: 'RicaWatch: AI Food Loss Early Warning',
+    desc: 'An AI-powered early warning and quality detection system for tomatoes and chili in Manado\'s traditional markets, combining an oversupply risk score, YOLOv8 computer vision, and a real-time web app. Top 10 National Finalist (Indonesia) at ASEAN Data Science Explorers 2026.',
+    detail: `
+      <h4>Project Overview</h4>
+      <p>Indonesia's horticultural loss and waste exceeds 60%, more than twice the global fruit and vegetable average, costing an estimated Rp 213 – 551 trillion per year. In Manado's Bersehati and Pinasungkulan markets, the problem is worsened by non-functioning cold storage (Pinasungkulan since 2016; Bersehati never had it for horticultural products), fragmented data, and manual record keeping. RicaWatch, built by <strong>Team Dollar Warrior</strong>, helps vendors and market managers anticipate oversupply and act before red bird's eye chili and tomatoes spoil, <strong>without needing cold-chain infrastructure</strong>. This project reached the <strong>Top 10 National Finals (Indonesia) of the ASEAN Data Science Explorers 2026</strong> (SAP × ASEAN Foundation), aligned with SDG 12.3, SDG 2.4, SDG 13.3, and the ASEAN AIFS framework. For more details, see here: <a href="https://github.com/natalio123/ricawatch">RicaWatch GitHub</a> and <a href="https://youtu.be/GANTI_ID_VIDEO">Demo Video</a></p>
+
+      <hr />
+
+      <h4>Technical Methodology & Datasets</h4>
+      <p>The project follows the <code>CRISP-DM</code> framework and combines three complementary AI layers: time-series risk scoring, YOLOv8 computer vision, and OCR for paper stock records (planned). Critical alerts are designed to trigger same-day surplus redistribution through Perumda Pasar Manado and surplus-food partners.</p>
+
+      <div class="modal-img-box" style="overflow-x: auto; text-align: left;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 1.3rem;">
+          <thead>
+            <tr style="border-bottom: 2px solid rgba(255,255,255,0.2); color: var(--main-color);">
+              <th style="padding: 8px; text-align: left;">Data</th>
+              <th style="padding: 8px; text-align: left;">Source</th>
+              <th style="padding: 8px; text-align: left;">Key Variables</th>
+              <th style="padding: 8px; text-align: left;">Role</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+              <td style="padding: 8px;">Commodity Prices</td>
+              <td style="padding: 8px;">North Sulawesi Food Security Agency (Facebook daily posts, manually compiled)</td>
+              <td style="padding: 8px;">Daily price per kg, 2 markets, 2 commodities</td>
+              <td style="padding: 8px;">Primary Predictor</td>
+            </tr>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+              <td style="padding: 8px;">Rainfall</td>
+              <td style="padding: 8px;">NASA POWER (Gorontalo, Kotamobagu, Tomohon, Langowan)</td>
+              <td style="padding: 8px;"><code>PRECTOTCORR</code>, lags H0–H3</td>
+              <td style="padding: 8px;">Weather Predictor</td>
+            </tr>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+              <td style="padding: 8px;">Produce Images</td>
+              <td style="padding: 8px;">Field collection at Bersehati Market</td>
+              <td style="padding: 8px;"><code>Tomat_Segar</code>, <code>Tomat_Menurun</code>, <code>Cabai</code></td>
+              <td style="padding: 8px;">YOLOv8 Training</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px;">Stall Data & Interviews</td>
+              <td style="padding: 8px;">Perumda Pasar Manado, vendor interviews</td>
+              <td style="padding: 8px;">207 active stalls, 1.04 kg/day loss per vendor</td>
+              <td style="padding: 8px;">Impact Estimation</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="caption">Table 1: Datasets and the Role of Each Source in the System</p>
+      </div>
+
+      <p><strong>Key Insights:</strong></p>
+      <ul>
+        <li>The dataset covers July 2025 to July 2026 with <strong>283 daily records and 1,055 price observations</strong> across two markets and two commodities.</li>
+        <li>The system is validated through 14+ vendor interviews and meetings with Perumda Pasar Manado, so the risk logic reflects real conditions on the ground.</li>
+      </ul>
+
+      <hr />
+
+      <h4>1. Exploratory Data Analysis (EDA)</h4>
+      <div class="modal-img-box">
+        <img src="/gambar/ricawatch-price-trends.png" alt="Price trends of chili and tomato" />
+        <p class="caption">Figure 1: Average Price Comparison of Chili and Tomato, Bersehati vs Pinasungkulan (SAP Analytics Cloud)</p>
+      </div>
+
+      <div class="modal-img-box">
+        <img src="/gambar/ricawatch-rainfall-vs-price.png" alt="Rainfall versus chili price in Gorontalo" />
+        <p class="caption">Figure 2: Gorontalo Case Study, Rainfall vs Aggregate Chili Price per Calendar Week</p>
+      </div>
+
+      <div class="modal-img-box">
+        <img src="/gambar/ricawatch-weather-correlation.png" alt="Weather-price correlation heatmap" />
+        <p class="caption">Figure 3: Weather–Price Correlation Heatmap by Region, Commodity, and Time Lag (H0–H3)</p>
+      </div>
+
+      <p><strong>Key Insights:</strong></p>
+      <ul>
+        <li>Prices at both markets move almost together. Chili hit its lowest point in January 2026 (~Rp 30,500/kg) and peaked in June 2026 (~Rp 90,900–91,200/kg), while tomato hit its lowest point in December 2025 (~Rp 5,190/kg). Both commodities peaked at the same time because seasonal factors constrained supply simultaneously.</li>
+        <li>Rainfall explains price swings only weakly (<strong>r = −0.268, p = 0.054</strong> for Gorontalo chili). Annual price peaks (~Rp 100,143 in CW14 and ~Rp 103,190/kg in CW24) came 1–2 weeks after Idul Fitri and Idul Adha while rainfall was low, which points to post-holiday demand as a stronger driver.</li>
+        <li>Price disparity between the two markets is small and disappears when averaged monthly, so daily granularity matters: prices follow daily incoming supply, not long-term trends.</li>
+        <li>Weeks with no price data (CW52 2025 and CW1 2026) were excluded and not treated as zero (<em>null ≠ 0</em>).</li>
+      </ul>
+
+      <hr />
+
+      <h4>2. Data Preparation</h4>
+      <p><strong>Key Insights:</strong></p>
+      <ul>
+        <li><strong>Price Table:</strong> Raw prices were pivoted into a wide table per market, with standardized commodity names and a combined price (average of both markets).</li>
+        <li><strong>Weather Pipeline:</strong> NASA POWER files were parsed with automatic header detection, with <code>YEAR + DOY</code> converted into dates and rainfall lagged by 0–3 days (H0–H3).</li>
+        <li><strong>Gap Handling:</strong> Linear interpolation was applied only to gaps of up to 7 days between two valid values; longer gaps were left empty to preserve analysis validity.</li>
+        <li><strong>Weekly Aggregation:</strong> Daily data were aggregated into ISO-week datasets for correlation testing.</li>
+      </ul>
+
+      <hr />
+
+      <h4>3. Modeling</h4>
+      <p><strong>Layer 1: Oversupply Risk Score.</strong> A daily score combines three components, weighted objectively with the <code>CRITIC</code> method (contrast + conflict between components) instead of subjective assumptions.</p>
+
+      <div class="modal-img-box" style="overflow-x: auto; text-align: left;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 1.3rem;">
+          <thead>
+            <tr style="border-bottom: 2px solid rgba(255,255,255,0.2); color: var(--main-color);">
+              <th style="padding: 8px; text-align: left;">Component</th>
+              <th style="padding: 8px; text-align: center;">Weight</th>
+              <th style="padding: 8px; text-align: left;">Formula</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+              <td style="padding: 8px;">Price Trend</td>
+              <td style="padding: 8px; text-align: center;">0.305</td>
+              <td style="padding: 8px;"><code>(MA7 − price) / MA7 × 100</code></td>
+            </tr>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+              <td style="padding: 8px;">Source-Weighted Weather</td>
+              <td style="padding: 8px; text-align: center;">0.335</td>
+              <td style="padding: 8px;">Rainfall at dominant sources, lagged and weighted by |r|</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px;">Price Volatility</td>
+              <td style="padding: 8px; text-align: center;">0.359</td>
+              <td style="padding: 8px;"><code>StdDev7 / Mean7 × 100</code></td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="caption">Table 2: Risk Score Components and CRITIC Weights</p>
+      </div>
+
+      <p>The final score is placed into four levels (Low, Medium, High, Critical), each linked to a recommended action such as monitoring, limited redistribution, active redistribution, or immediate action with notifications to traders and Perumda.</p>
+
+      <p><strong>Layer 2: Computer Vision (YOLOv8).</strong> A detector (pilot v2) classifies <code>Tomat_Segar</code>, <code>Tomat_Menurun</code>, and <code>Cabai</code>. In v2, fresh and declining chili are merged, so chili is only detected, not graded.</p>
+
+      <div class="modal-img-box">
+        <img src="/gambar/ricawatch-yolo-detection.png" alt="YOLOv8 detection of tomato and chili" />
+        <p class="caption">Figure 4: YOLOv8 Detection of Tomato and Chili (Pilot v2)</p>
+      </div>
+
+      <p><strong>Layer 3: OCR</strong> is planned to digitize paper-based stock records, so traditional markets can join the digital ecosystem.</p>
+
+      <hr />
+
+      <h4>4. Evaluation & Impact Estimation</h4>
+      <div class="modal-img-box">
+        <img src="/gambar/ricawatch-risk-calendar.png" alt="Oversupply risk calendar for chili" />
+        <p class="caption">Figure 5: Oversupply Risk Calendar for Chili, July 2025 – July 2026</p>
+      </div>
+
+      <p><strong>Key Insights:</strong></p>
+      <ul>
+        <li>Only 1 of 20 weather–price combinations was statistically significant (Kotamobagu + Chili, r = −0.31 at H0, p = 0.025). Correlations weaken from H0 to H3, which confirms that <strong>weather alone is not enough</strong> and the risk score must also use price trend and volatility.</li>
+        <li>Both <em>Critical</em> clusters were driven by sharp price corrections, not rainfall: chili prices fell 43% (Rp 71,667 to Rp 41,167/kg) while rainfall on the lowest-price day was only 2.47 mm. Perumda Pasar Manado linked these corrections to simultaneous harvests across several production centers.</li>
+        <li>The highest risk score was only about 22 on the observed scale, consistent with small daily spoilage volumes and traders holding unsold stock (moderate-scale oversupply). Risk thresholds are an initial calibration to be validated against real spoilage records during the pilot.</li>
+      </ul>
+
+      <p><strong>Estimated impact at Bersehati</strong> (about 135 chili and tomato vendors × 1.04 kg/day × 365 days = 51.2 tons lost per year):</p>
+      <div class="modal-img-box" style="overflow-x: auto; text-align: left;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 1.3rem;">
+          <thead>
+            <tr style="border-bottom: 2px solid rgba(255,255,255,0.2); color: var(--main-color);">
+              <th style="padding: 8px; text-align: left;">Scenario</th>
+              <th style="padding: 8px; text-align: center;">Reduction</th>
+              <th style="padding: 8px; text-align: center;">Saved per Year</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+              <td style="padding: 8px;">Conservative</td>
+              <td style="padding: 8px; text-align: center;">15%</td>
+              <td style="padding: 8px; text-align: center;">7.7 tons</td>
+            </tr>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+              <td style="padding: 8px;"><strong>Moderate</strong></td>
+              <td style="padding: 8px; text-align: center;"><strong>20%</strong></td>
+              <td style="padding: 8px; text-align: center;"><strong>10.2 tons (~Rp 584 million)</strong></td>
+            </tr>
+            <tr>
+              <td style="padding: 8px;">Optimistic</td>
+              <td style="padding: 8px; text-align: center;">30%</td>
+              <td style="padding: 8px; text-align: center;">15.4 tons</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="caption">Table 3: Estimated Volume Saved at One Market (Assumption-Based Estimate)</p>
+      </div>
+
+      <hr />
+
+      <h4>5. Deployment Layer (Web App)</h4>
+      <p>The detector is served through a mobile-friendly web app. The phone camera sends one frame at a time to the backend, which returns the commodity, status, confidence, and bounding boxes; the app draws the boxes live and averages the last 5 frames so the status does not flicker.</p>
+
+      <div class="modal-img-box">
+        <img src="/gambar/demo_scan.gif" alt="RicaWatch web application" />
+        <p class="caption">Figure 6: RicaWatch Live Scan Web Application</p>
+      </div>
+
+      <p><strong>Key Features:</strong></p>
+      <ul>
+        <li>📷 Real-time tomato and chili scan from a phone camera</li>
+        <li>📦 Bounding boxes with freshness status and confidence</li>
+        <li>⏸️ Pause, save, and scan history stored in the browser</li>
+        <li>🔐 CORS, file size limit, and per-IP rate limiting</li>
+        <li>☁️ Frontend on Vercel, FastAPI + YOLOv8 in Docker on AWS EC2, exposed via Cloudflare Tunnel with no open AWS ports</li>
+      </ul>
+
+      <hr />
+
+      <h4>My Contribution (Team Lead)</h4>
+      <ul>
+        <li><strong>Storyboard & Timeline:</strong> Built the storyboard and the project timeline for the August–October 2026 work period.</li>
+        <li><strong>Data Collection:</strong> Collected food price data from July 2025 to July 2026 from the Facebook page of the North Sulawesi Food Security Agency (283 daily records, 1,055 price observations across two markets and two commodities), then prepared it for analysis in SAP Analytics Cloud.</li>
+        <li><strong>Field Research:</strong> Interviewed Perumda Pasar Manado (together with Christian) and vendors at Bersehati Market, while collecting chili and tomato photos for computer vision.</li>
+        <li><strong>Web Application:</strong> Built the web application with a computer vision feature (YOLOv8).</li>
+        <li><strong>Data Visualization:</strong> Created and refined data visualizations in SAP Analytics Cloud.</li>
+      </ul>
+
+      <hr />
+
+      <h4>Final Results</h4>
+      <ul>
+        <li>The team reached the <strong>Top 10 National Finals (Indonesia)</strong> of the ASEAN Data Science Explorers 2026 with a field-validated, zero-infrastructure early warning concept for traditional markets.</li>
+        <li>The analysis showed that weather alone explains price volatility poorly, which led to a three-layer design that combines price trend, supplier-region weather, volatility, and visual condition.</li>
+        <li>In the moderate scenario, a 20% loss reduction at a single market (Bersehati) is estimated to save about 10.2 tons of food and roughly Rp 584 million per year, and the architecture is designed to be replicated in other markets, provinces, and ASEAN countries through the AIFS framework.</li>
+        <li>The system is still a pilot: the YOLOv8 model depends on photo conditions, chili quality is not graded yet, and impact figures are estimates based on field assumptions.</li>
+      </ul>
+    `,
+    tools: ['Python', 'YOLOv8', 'FastAPI', 'Pandas', 'SciPy', 'SAP Analytics Cloud', 'Docker', 'AWS EC2', 'Cloudflare Tunnel', 'Vercel', 'CRISP-DM'],
+  },
+  {
+    id: 2,
     src: '/gambar/1.jpg',
     title: 'Pizza Shop Analysis',
     desc: 'The objective is to determine whether pizza diameters are normally distributed and to identify significant differences in pizza diameters between the two restaurants using the Shapiro Test, etc',
@@ -74,7 +305,7 @@ export const projects = [
     tools: ['Python', 'SciPy', 'Pandas', 'Inferential Statistics', 'Jupyter Notebook'],
   },
   {
-    id: 5,
+    id: 3,
     src: '/gambar/Prime video logo.jpg',
     title: 'Amazon Prime Video Content Dashboard',
     desc: 'An interactive dashboard was built using Microsoft Power BI to analyze and visualize the Amazon Prime Video content catalog (1929-2021), with key insights showing that the 13+ raring and the Drama genre are the largest categories',
@@ -141,7 +372,7 @@ export const projects = [
     tools: ['Power BI', 'DAX', 'Data Cleaning', 'Data Visualization', 'UI/UX Design'],
   },
   {
-    id: 3,
+    id: 4,
     src: '/gambar/t3.jpg',
     title: 'Sales Performance Dashboard',
     desc: 'An interactive dashboard built using Microsoft Excel (PivotTable and VBA macros) that highlights annual sales trends, with one of the key insights being that sales peak in November.',
@@ -212,7 +443,7 @@ export const projects = [
     tools: ['Ms Excel', 'PivotTable', 'PivotChart', 'Macro VBA', 'Interactive Dashboard'],
   },
   {
-    id: 4,
+    id: 5,
     src: '/gambar/4.jpg',
     title: 'Credit Card Prediction Model',
     desc: 'A machine learning classification model to predict the risk of credit card payment delinquency, with target accuracy and recall above 60%.',
