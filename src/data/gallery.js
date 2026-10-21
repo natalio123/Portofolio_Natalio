@@ -234,7 +234,7 @@ export const projects = [
     tools: ['Python', 'YOLOv8', 'FastAPI', 'Pandas', 'SciPy', 'SAP Analytics Cloud', 'Docker', 'AWS EC2', 'Cloudflare Tunnel', 'Vercel', 'CRISP-DM'],
   },
   {
-    id: 2,
+    id: 7,
     src: '/gambar/1.jpg',
     title: 'Pizza Shop Analysis',
     desc: 'The objective is to determine whether pizza diameters are normally distributed and to identify significant differences in pizza diameters between the two restaurants using the Shapiro Test, etc',
@@ -443,7 +443,7 @@ export const projects = [
     tools: ['Ms Excel', 'PivotTable', 'PivotChart', 'Macro VBA', 'Interactive Dashboard'],
   },
   {
-    id: 5,
+    id: 8,
     src: '/gambar/4.jpg',
     title: 'Credit Card Prediction Model',
     desc: 'A machine learning classification model to predict the risk of credit card payment delinquency, with target accuracy and recall above 60%.',
@@ -653,7 +653,7 @@ export const projects = [
     tools: ['Python', 'XGBoost', 'Scikit-learn', 'n8n', 'Streamlit', 'Pandas', 'Seaborn'],
   },
   {
-    id: 7,
+    id: 2,
     src: '/gambar/7.jpg',
     title: 'Mithril Miner: PLTPs Site Exploration',
     desc: 'A data mining-based classification model for identifying strategic locations for Tidal Power Plants (PLTPs) in North Sulawesi, as the Delegation for the Preliminary Round of GEMASTIK XVIII 2025.',
@@ -858,7 +858,7 @@ export const projects = [
     tools: ['Python', 'XGBoost', 'Random Forest', 'SVM', 'Rasterio', 'Xarray', 'Geopandas', 'SHAP', 'CRISP-DM', 'Geospatial Analysis'],
   },
   {
-    id: 8,
+    id: 5,
     src: '/gambar/8.jpg',
     title: 'Multimodal Emotion Classification from Social Media Videos',
     desc: 'An 8-class emotion classification model for social media videos (visual, audio, text) using the Late Fusion (stacking) approach successfully placed in the Top 20 out of approximately 300 teams in the preliminary round of SATRIA DATA 2025 – Big Data Challenge.',
