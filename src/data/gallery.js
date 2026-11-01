@@ -234,6 +234,211 @@ export const projects = [
     tools: ['Python', 'YOLOv8', 'FastAPI', 'Pandas', 'SciPy', 'SAP Analytics Cloud', 'Docker', 'AWS EC2', 'Cloudflare Tunnel', 'Vercel', 'CRISP-DM'],
   },
   {
+    id: 2,
+    src: '/gambar/7.jpg',
+    title: 'Mithril Miner: PLTPs Site Exploration',
+    desc: 'A data mining-based classification model for identifying strategic locations for Tidal Power Plants (PLTPs) in North Sulawesi, as the Delegation for the Preliminary Round of GEMASTIK XVIII 2025.',
+    detail: `
+      <h4>Project Overview</h4>
+      <p>Indonesia has set a target of 23% renewable energy in its energy mix by 2025 (RUEN), but as of 2023, the actual share has only reached about 12.5%. Tidal energy is one of the most promising options due to its predictable nature, zero emissions, and suitability for coastal areas—yet its utilization in Indonesia remains limited due to a lack of integration of spatial and oceanographic data in technical planning. CND Mithril Miner developed a spatial classification model based on data mining and machine learning to identify strategic locations for the construction of Tidal Power Plants (PLTP) in the coastal areas of North Sulawesi, as a contribution to national energy sovereignty. This project successfully became <strong>a representative in the preliminary round of the GEMASTIK XVIII 2025 National Data Mining Competition</strong>. For more details, see here: <a href="https://colab.research.google.com/drive/1gWEe9rEmz8Po0gKTBSU0vvXIEC0C3uVq?usp=sharing">Mithil Miner Notebook</a> and  <a href="https://github.com/natalio123/Geothermal-Data-Analysis-.git">Mithil Miner GitHub</a></p>
+
+      <hr />
+
+      <h4>Technical Methodology & Datasets</h4>
+      <p>The model was developed following the five-phase <code>CRISP-DM</code> framework (Business Understanding → Data Understanding → Data Preparation → Modeling → Evaluation). Four data sources were integrated as predictors.</p>
+
+      <div class="modal-img-box" style="overflow-x: auto; text-align: left;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 1.3rem;">
+          <thead>
+            <tr style="border-bottom: 2px solid rgba(255,255,255,0.2); color: var(--main-color);">
+              <th style="padding: 8px; text-align: left;">Data</th>
+              <th style="padding: 8px; text-align: left;">Source</th>
+              <th style="padding: 8px; text-align: left;">Key Variables</th>
+              <th style="padding: 8px; text-align: left;">Role</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+              <td style="padding: 8px;">Tidal Current Speed</td>
+              <td style="padding: 8px;">Copernicus Marine Service (hourly, per grid Sulawesi Utara)</td>
+              <td style="padding: 8px;"><code>utide</code>, <code>vtide</code></td>
+              <td style="padding: 8px;">Key Predictors of Energy Potential</td>
+            </tr>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+              <td style="padding: 8px;">Batimetri</td>
+              <td style="padding: 8px;">BIG — National Bathymetric Map (Batnas)</td>
+              <td style="padding: 8px;"><code>depth</code></td>
+              <td style="padding: 8px;">Predictors of Technical Constraints</td>
+            </tr>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+              <td style="padding: 8px;">Tidal Range</td>
+              <td style="padding: 8px;">BMKG (Bitung, Likupang, and Manado stations)</td>
+              <td style="padding: 8px;"><code>EST</code></td>
+              <td style="padding: 8px;">Supporting Predictors & Validation</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px;">Distance to the Substation</td>
+              <td style="padding: 8px;">Manually processed via Google Earth</td>
+              <td style="padding: 8px;"><code>Lat_G</code>, <code>Long_G</code></td>
+              <td style="padding: 8px;">Predictors of Economic Constraints</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="caption">Table 1: Dataset and the Role of Each Variable in the Model</p>
+      </div>
+
+      <p><strong>Key Insights:</strong></p>
+      <ul>
+        <li>The model integrates technical aspects (current velocity, depth) and economic aspects (distance to the grid) into a single, unified spatial framework; this approach is one of the key distinctions from previous studies, which generally focused on only one aspect.</li>
+      </ul>
+
+      <hr />
+
+      <h4>Exploratory Data Analysis (EDA)</h4>
+      <h4>1. Data Understanding </h4>
+      <p><strong>Key Insights:</strong></p>
+      <ul>
+        <li>A total of 2,446,218 missing values were identified in the current components (utide, vtide) of the Copernicus data; these were handled using the zero-imputation method based on the technical assumption that the current is zero at those points.</li>
+        <li>Duplicate data were found in the Likupang observation dataset (3,807 rows) and the Likupang tide data (81 rows); both were removed to maintain statistical validity.</li>
+        <li>Box plot analysis revealed extreme values in the tidal range; based on domain verification, these values were retained because they represent a real physical phenomenon (spring tides), not data anomalies.</li>
+        <li>The tidal pattern at the study site (Bitung Station) was confirmed to be of the <em>Mixed, Prevailing Semidiurnal</em> type, characterized by two high tides and two low tides per day with varying heights.</li>
+        <li>The bathymetric distribution map confirms that all locations meeting the technical depth criteria are concentrated in the coastal zone (not in deep waters >2,000 m), so further analysis is focused on this shallow zone.</li>
+      </ul>
+
+      <hr />
+
+      <h4>2. Data Preparation & Feature Engineering</h4>
+      <p><strong>Key Insights:</strong></p>
+      <ul>
+        <li><strong>Raster-to-Tabular Conversion:</strong> Bathymetric (.tif) and Copernicus (.nc) data were extracted into a tabular format using <code>rasterio</code> and <code>xarray</code>.</li>
+        <li><strong>Magnitude Vector:</strong> The <code>max_tidal_speed</code> feature is derived from the magnitude vectors of the u and v components to obtain the peak velocity at each grid point.</li>
+        <li><strong>Spatial Merging:</strong> Data integration was performed using the Nearest Neighbor Join technique based on <code>geopandas</code>, appending the attributes depth, mean_tidal_range, and distance_to_grid_km to each ocean grid point after projection into the UTM coordinate system.</li>
+        <li><strong>Target Labeling (Energy Score):</strong> The energy score is calculated using the physics formula <code>P = ½ρAv³</code> (current velocity to the third power, multiplied by the average tidal range, divided by the distance to the grid as an economic penalty), then discretized into 3 balanced quantile classes: <em>Low, Medium, High</em> using <code>pandas.qcut</code>.</li>
+      </ul>
+
+      <hr />
+
+      <h4>3. Modeling & Hyperparameter Tuning</h4>
+      <p>Three classification algorithms were compared: Random Forest (RF), XGBoost (XGB), and Support Vector Machine (SVM). They were optimized using <code>GridSearchCV</code> with <code>5-fold cross-validation</code> on an 80:20 data split.</p>
+
+      <div class="modal-img-box" style="overflow-x: auto; text-align: left;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 1.3rem;">
+          <thead>
+            <tr style="border-bottom: 2px solid rgba(255,255,255,0.2); color: var(--main-color);">
+              <th style="padding: 8px; text-align: left;">Algoritm</th>
+              <th style="padding: 8px; text-align: left;">Best Configuration</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+              <td style="padding: 8px;">Random Forest</td>
+              <td style="padding: 8px;">n_estimators=200, max_depth=None, min_samples_split=2, min_samples_leaf=1</td>
+            </tr>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+              <td style="padding: 8px;">XGBoost</td>
+              <td style="padding: 8px;">learning_rate=0.1, max_depth=6, n_estimators=200, subsample=0.8</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px;">SVM</td>
+              <td style="padding: 8px;">C=10, kernel=rbf, gamma='scale' (dengan StandardScaler pipeline)</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="caption">Table 2: Optimal Configuration from GridSearchCV Results</p>
+      </div>
+
+      <hr />
+
+      <h4>4. Evaluation & Interpretability</h4>
+      <div class="modal-img-box" style="overflow-x: auto; text-align: left;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 1.3rem;">
+          <thead>
+            <tr style="border-bottom: 2px solid rgba(255,255,255,0.2); color: var(--main-color);">
+              <th style="padding: 8px; text-align: left;">Method</th>
+              <th style="padding: 8px; text-align: center;">Accuracy</th>
+              <th style="padding: 8px; text-align: center;">Precision</th>
+              <th style="padding: 8px; text-align: center;">Recall</th>
+              <th style="padding: 8px; text-align: center;">F1-Score</th>
+              <th style="padding: 8px; text-align: center;">Cohen's Kappa</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+              <td style="padding: 8px;">RF</td>
+              <td style="padding: 8px; text-align: center;">0.9730</td>
+              <td style="padding: 8px; text-align: center;">0.9733</td>
+              <td style="padding: 8px; text-align: center;">0.9730</td>
+              <td style="padding: 8px; text-align: center;">0.9730</td>
+              <td style="padding: 8px; text-align: center;">0.9595</td>
+            </tr>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+              <td style="padding: 8px;"><strong>XGB</strong></td>
+              <td style="padding: 8px; text-align: center;"><strong>0.9775</strong></td>
+              <td style="padding: 8px; text-align: center;"><strong>0.9778</strong></td>
+              <td style="padding: 8px; text-align: center;"><strong>0.9775</strong></td>
+              <td style="padding: 8px; text-align: center;"><strong>0.9775</strong></td>
+              <td style="padding: 8px; text-align: center;"><strong>0.9662</strong></td>
+            </tr>
+            <tr>
+              <td style="padding: 8px;">SVM</td>
+              <td style="padding: 8px; text-align: center;">0.9257</td>
+              <td style="padding: 8px; text-align: center;">0.9258</td>
+              <td style="padding: 8px; text-align: center;">0.9257</td>
+              <td style="padding: 8px; text-align: center;">0.9256</td>
+              <td style="padding: 8px; text-align: center;">0.8885</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="caption">Table 3: Comparison of the Performance of the Three Models on the Test (Hold-out) Data</p>
+      </div>
+
+      <div class="modal-img-box">
+        <img src="/gambar/mithril-miner-shap-xgboost.png" alt="SHAP Summary Plot XGBoost" />
+        <p class="caption">Figure 2: SHAP Summary Plot — Model XGBoost (Model Terbaik)</p>
+      </div>
+
+      <p><strong>Key Insights:</strong></p>
+      <ul>
+      <li>XGBoost outperformed the other models across all metrics, with a Cohen's Kappa of 0.9696, indicating that the predictions align with the actual labels at the “almost perfect agreement” level.</li>
+      <li>Analysis of <em>Permutation Feature Importance</em> (PFI) confirmed <code>max_tidal_speed</code> as the most dominant feature in all three models (RF 0.61, XGB 0.61, SVM 0.53), followed by <code>distance_to_grid_km</code>, <code>mean_tidal_range</code>, and <code>depth</code>.</li>
+      <li>The <em>SHAP</em> analysis shows that high current speeds consistently classify locations as having “High” potential, in line with the physical principle that ocean current power is proportional to the cube of its speed.</li>
+      <li>The <code>depth</code> feature has the lowest SHAP contribution in tree-based models but is quite significant in SVM, indicating that as long as the depth remains within a technically feasible range (25–50 m), its influence on classification is relatively small compared to the current velocity and distance to the grid factors.</li>
+      </ul>
+
+      <hr />
+
+      <h4>Spatial Mapping</h4>
+      <div class="modal-img-box">
+        <img src="/gambar/peta_sebaran.png" alt="Peta Klasifikasi Potensi Kawasan PLTPs" />
+        <p class="caption">Figure 1: Pemetaan Spasial Hasil Klasifikasi Potensi Kawasan Pembangunan PLTPs</p>
+      </div>
+      <p><strong>Key Insights:</strong></p>
+      <ul>
+      <li>Spatial mapping of the classification results shows a polarized pattern: high-potential areas are concentrated in the northeastern part of the Minahasa Peninsula, particularly in the waters of <strong>Bitung</strong> and <strong>Lembeh Strait</strong>, which feature narrow sea lanes with relatively fast currents.</li>
+      <li><strong>Likupang</strong> was also identified as an additional priority zone, given its proximity to adequate electrical infrastructure.</li>
+      <li>Areas with low potential are predominantly found in the open bays to the south and west, where currents tend to be slower.</li>
+      </ul>
+
+      <hr />
+
+      <h4>My Contribution</h4>
+      <ul>
+        <li><strong>Exploratory Data Analysis (EDA):</strong> Conducted data quality analysis, handled over 1.2 million missing values, removed duplicates, detected outliers using box plots, and characterized tidal phenomena.</li>
+        <li><strong>Data Preparation & Feature Engineering:</strong> Converting raster data to tabular format (.tif & .nc), calculating current velocity magnitude vectors, performing spatial merging using the Nearest Neighbor Join method, and designing a target labeling scheme (Energy Score) that combines technical and economic aspects.</li>
+      </ul>
+
+      <hr />
+
+      <h4>Final Results</h4>
+      <ul>
+        <li>A high-performance spatial classification model was successfully developed (XGBoost: 97.97% accuracy, 96.96% Kappa Score), outperforming the other two comparison models (RF and SVM) across all evaluation metrics.</li>
+        <li>Model interpretation using PFI and SHAP confirmed that maximum current velocity is the primary determinant of energy potential, supported by distance to the power grid, tidal range, and sea depth as contributing factors—this validation reinforces that the model is not only statistically accurate but also aligned with the principles of oceanographic physics.</li>
+        <li>This project successfully qualified as a delegate for the GEMASTIK XVIII 2025 Preliminary Round, validating the feasibility of the CRISP-DM-based methodology at the national competition level, while also producing a map of recommended priority areas (see the Spatial Mapping section) that can be directly utilized by the government and investors in planning marine energy infrastructure.</li>
+      </ul>
+    `,
+    tools: ['Python', 'XGBoost', 'Random Forest', 'SVM', 'Rasterio', 'Xarray', 'Geopandas', 'SHAP', 'CRISP-DM', 'Geospatial Analysis'],
+  },
+  {
     id: 7,
     src: '/gambar/1.jpg',
     title: 'Pizza Shop Analysis',
@@ -653,209 +858,75 @@ export const projects = [
     tools: ['Python', 'XGBoost', 'Scikit-learn', 'n8n', 'Streamlit', 'Pandas', 'Seaborn'],
   },
   {
-    id: 2,
-    src: '/gambar/7.jpg',
-    title: 'Mithril Miner: PLTPs Site Exploration',
-    desc: 'A data mining-based classification model for identifying strategic locations for Tidal Power Plants (PLTPs) in North Sulawesi, as the Delegation for the Preliminary Round of GEMASTIK XVIII 2025.',
+    id: 7,
+    src: '/gambar/1.jpg',
+    title: 'Pizza Shop Analysis',
+    desc: 'The objective is to determine whether pizza diameters are normally distributed and to identify significant differences in pizza diameters between the two restaurants using the Shapiro Test, etc',
     detail: `
       <h4>Project Overview</h4>
-      <p>Indonesia has set a target of 23% renewable energy in its energy mix by 2025 (RUEN), but as of 2023, the actual share has only reached about 12.5%. Tidal energy is one of the most promising options due to its predictable nature, zero emissions, and suitability for coastal areas—yet its utilization in Indonesia remains limited due to a lack of integration of spatial and oceanographic data in technical planning. CND Mithril Miner developed a spatial classification model based on data mining and machine learning to identify strategic locations for the construction of Tidal Power Plants (PLTP) in the coastal areas of North Sulawesi, as a contribution to national energy sovereignty. This project successfully became <strong>a representative in the preliminary round of the GEMASTIK XVIII 2025 National Data Mining Competition</strong>. For more details, see here: <a href="https://colab.research.google.com/drive/1gWEe9rEmz8Po0gKTBSU0vvXIEC0C3uVq?usp=sharing">Mithil Miner Notebook</a> and  <a href="https://github.com/natalio123/Geothermal-Data-Analysis-.git">Mithil Miner GitHub</a></p>
+      <p>This case study was conducted for a pizza company with two locations (Making Unit 1 & Making Unit 2) in the city of Bandung. The objective was to ensure product quality consistency through an inferential statistical approach: to verify whether the pizza diameters follow a normal distribution, and then to test whether there is a significant difference between the pizza diameters at the two locations as part of quality control.</p>
 
       <hr />
 
-      <h4>Technical Methodology & Datasets</h4>
-      <p>The model was developed following the five-phase <code>CRISP-DM</code> framework (Business Understanding → Data Understanding → Data Preparation → Modeling → Evaluation). Four data sources were integrated as predictors.</p>
-
-      <div class="modal-img-box" style="overflow-x: auto; text-align: left;">
-        <table style="width: 100%; border-collapse: collapse; font-size: 1.3rem;">
-          <thead>
-            <tr style="border-bottom: 2px solid rgba(255,255,255,0.2); color: var(--main-color);">
-              <th style="padding: 8px; text-align: left;">Data</th>
-              <th style="padding: 8px; text-align: left;">Source</th>
-              <th style="padding: 8px; text-align: left;">Key Variables</th>
-              <th style="padding: 8px; text-align: left;">Role</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
-              <td style="padding: 8px;">Tidal Current Speed</td>
-              <td style="padding: 8px;">Copernicus Marine Service (hourly, per grid Sulawesi Utara)</td>
-              <td style="padding: 8px;"><code>utide</code>, <code>vtide</code></td>
-              <td style="padding: 8px;">Key Predictors of Energy Potential</td>
-            </tr>
-            <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
-              <td style="padding: 8px;">Batimetri</td>
-              <td style="padding: 8px;">BIG — National Bathymetric Map (Batnas)</td>
-              <td style="padding: 8px;"><code>depth</code></td>
-              <td style="padding: 8px;">Predictors of Technical Constraints</td>
-            </tr>
-            <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
-              <td style="padding: 8px;">Tidal Range</td>
-              <td style="padding: 8px;">BMKG (Bitung, Likupang, and Manado stations)</td>
-              <td style="padding: 8px;"><code>EST</code></td>
-              <td style="padding: 8px;">Supporting Predictors & Validation</td>
-            </tr>
-            <tr>
-              <td style="padding: 8px;">Distance to the Substation</td>
-              <td style="padding: 8px;">Manually processed via Google Earth</td>
-              <td style="padding: 8px;"><code>Lat_G</code>, <code>Long_G</code></td>
-              <td style="padding: 8px;">Predictors of Economic Constraints</td>
-            </tr>
-          </tbody>
-        </table>
-        <p class="caption">Table 1: Dataset and the Role of Each Variable in the Model</p>
-      </div>
-
-      <p><strong>Key Insights:</strong></p>
-      <ul>
-        <li>The model integrates technical aspects (current velocity, depth) and economic aspects (distance to the grid) into a single, unified spatial framework; this approach is one of the key distinctions from previous studies, which generally focused on only one aspect.</li>
-      </ul>
-
-      <hr />
-
-      <h4>Exploratory Data Analysis (EDA)</h4>
-      <h4>1. Data Understanding </h4>
-      <p><strong>Key Insights:</strong></p>
-      <ul>
-        <li>A total of 2,446,218 missing values were identified in the current components (utide, vtide) of the Copernicus data; these were handled using the zero-imputation method based on the technical assumption that the current is zero at those points.</li>
-        <li>Duplicate data were found in the Likupang observation dataset (3,807 rows) and the Likupang tide data (81 rows); both were removed to maintain statistical validity.</li>
-        <li>Box plot analysis revealed extreme values in the tidal range; based on domain verification, these values were retained because they represent a real physical phenomenon (spring tides), not data anomalies.</li>
-        <li>The tidal pattern at the study site (Bitung Station) was confirmed to be of the <em>Mixed, Prevailing Semidiurnal</em> type, characterized by two high tides and two low tides per day with varying heights.</li>
-        <li>The bathymetric distribution map confirms that all locations meeting the technical depth criteria are concentrated in the coastal zone (not in deep waters >2,000 m), so further analysis is focused on this shallow zone.</li>
-      </ul>
-
-      <hr />
-
-      <h4>2. Data Preparation & Feature Engineering</h4>
-      <p><strong>Key Insights:</strong></p>
-      <ul>
-        <li><strong>Raster-to-Tabular Conversion:</strong> Bathymetric (.tif) and Copernicus (.nc) data were extracted into a tabular format using <code>rasterio</code> and <code>xarray</code>.</li>
-        <li><strong>Magnitude Vector:</strong> The <code>max_tidal_speed</code> feature is derived from the magnitude vectors of the u and v components to obtain the peak velocity at each grid point.</li>
-        <li><strong>Spatial Merging:</strong> Data integration was performed using the Nearest Neighbor Join technique based on <code>geopandas</code>, appending the attributes depth, mean_tidal_range, and distance_to_grid_km to each ocean grid point after projection into the UTM coordinate system.</li>
-        <li><strong>Target Labeling (Energy Score):</strong> The energy score is calculated using the physics formula <code>P = ½ρAv³</code> (current velocity to the third power, multiplied by the average tidal range, divided by the distance to the grid as an economic penalty), then discretized into 3 balanced quantile classes: <em>Low, Medium, High</em> using <code>pandas.qcut</code>.</li>
-      </ul>
-
-      <hr />
-
-      <h4>3. Modeling & Hyperparameter Tuning</h4>
-      <p>Three classification algorithms were compared: Random Forest (RF), XGBoost (XGB), and Support Vector Machine (SVM). They were optimized using <code>GridSearchCV</code> with <code>5-fold cross-validation</code> on an 80:20 data split.</p>
-
-      <div class="modal-img-box" style="overflow-x: auto; text-align: left;">
-        <table style="width: 100%; border-collapse: collapse; font-size: 1.3rem;">
-          <thead>
-            <tr style="border-bottom: 2px solid rgba(255,255,255,0.2); color: var(--main-color);">
-              <th style="padding: 8px; text-align: left;">Algoritm</th>
-              <th style="padding: 8px; text-align: left;">Best Configuration</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
-              <td style="padding: 8px;">Random Forest</td>
-              <td style="padding: 8px;">n_estimators=200, max_depth=None, min_samples_split=2, min_samples_leaf=1</td>
-            </tr>
-            <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
-              <td style="padding: 8px;">XGBoost</td>
-              <td style="padding: 8px;">learning_rate=0.1, max_depth=6, n_estimators=200, subsample=0.8</td>
-            </tr>
-            <tr>
-              <td style="padding: 8px;">SVM</td>
-              <td style="padding: 8px;">C=10, kernel=rbf, gamma='scale' (dengan StandardScaler pipeline)</td>
-            </tr>
-          </tbody>
-        </table>
-        <p class="caption">Table 2: Optimal Configuration from GridSearchCV Results</p>
-      </div>
-
-      <hr />
-
-      <h4>4. Evaluation & Interpretability</h4>
-      <div class="modal-img-box" style="overflow-x: auto; text-align: left;">
-        <table style="width: 100%; border-collapse: collapse; font-size: 1.3rem;">
-          <thead>
-            <tr style="border-bottom: 2px solid rgba(255,255,255,0.2); color: var(--main-color);">
-              <th style="padding: 8px; text-align: left;">Method</th>
-              <th style="padding: 8px; text-align: center;">Accuracy</th>
-              <th style="padding: 8px; text-align: center;">Precision</th>
-              <th style="padding: 8px; text-align: center;">Recall</th>
-              <th style="padding: 8px; text-align: center;">F1-Score</th>
-              <th style="padding: 8px; text-align: center;">Cohen's Kappa</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
-              <td style="padding: 8px;">RF</td>
-              <td style="padding: 8px; text-align: center;">0.9730</td>
-              <td style="padding: 8px; text-align: center;">0.9733</td>
-              <td style="padding: 8px; text-align: center;">0.9730</td>
-              <td style="padding: 8px; text-align: center;">0.9730</td>
-              <td style="padding: 8px; text-align: center;">0.9595</td>
-            </tr>
-            <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
-              <td style="padding: 8px;"><strong>XGB</strong></td>
-              <td style="padding: 8px; text-align: center;"><strong>0.9775</strong></td>
-              <td style="padding: 8px; text-align: center;"><strong>0.9778</strong></td>
-              <td style="padding: 8px; text-align: center;"><strong>0.9775</strong></td>
-              <td style="padding: 8px; text-align: center;"><strong>0.9775</strong></td>
-              <td style="padding: 8px; text-align: center;"><strong>0.9662</strong></td>
-            </tr>
-            <tr>
-              <td style="padding: 8px;">SVM</td>
-              <td style="padding: 8px; text-align: center;">0.9257</td>
-              <td style="padding: 8px; text-align: center;">0.9258</td>
-              <td style="padding: 8px; text-align: center;">0.9257</td>
-              <td style="padding: 8px; text-align: center;">0.9256</td>
-              <td style="padding: 8px; text-align: center;">0.8885</td>
-            </tr>
-          </tbody>
-        </table>
-        <p class="caption">Table 3: Comparison of the Performance of the Three Models on the Test (Hold-out) Data</p>
-      </div>
+      <h4>1. Case Study I:  Test of Normality for Pizza Diameter</h4>
+      <p>A pizza shop wants to determine whether the diameters of the pizzas it produces are normally distributed. The test was conducted using the <code>Shapiro-Wilk Test</code> with a significance level (alpha) of 0.05, where H0 states that the data are normally distributed.</p>
 
       <div class="modal-img-box">
-        <img src="/gambar/mithril-miner-shap-xgboost.png" alt="SHAP Summary Plot XGBoost" />
-        <p class="caption">Figure 2: SHAP Summary Plot — Model XGBoost (Model Terbaik)</p>
+        <img src="/gambar/gerai-pizza-shapiro-tunggal.png" alt="Results of the Shapiro Test for Pizza Diameter" />
+        <p class="caption">Figure 1: Results of the Shapiro Test on Pizza Diameter Data</p>
       </div>
 
       <p><strong>Key Insights:</strong></p>
       <ul>
-      <li>XGBoost outperformed the other models across all metrics, with a Cohen's Kappa of 0.9696, indicating that the predictions align with the actual labels at the “almost perfect agreement” level.</li>
-      <li>Analysis of <em>Permutation Feature Importance</em> (PFI) confirmed <code>max_tidal_speed</code> as the most dominant feature in all three models (RF 0.61, XGB 0.61, SVM 0.53), followed by <code>distance_to_grid_km</code>, <code>mean_tidal_range</code>, and <code>depth</code>.</li>
-      <li>The <em>SHAP</em> analysis shows that high current speeds consistently classify locations as having “High” potential, in line with the physical principle that ocean current power is proportional to the cube of its speed.</li>
-      <li>The <code>depth</code> feature has the lowest SHAP contribution in tree-based models but is quite significant in SVM, indicating that as long as the depth remains within a technically feasible range (25–50 m), its influence on classification is relatively small compared to the current velocity and distance to the grid factors.</li>
+        <li>A p-value of 0.52 was obtained, well above the alpha level of 0.05.</li>
+        <li>H0 could not be rejected, meaning that the pizza diameter data are normally distributed.</li>
+        <li>These results serve as the basis for determining the appropriate follow-up (parametric) test to be used in the next case study.</li>
       </ul>
 
       <hr />
 
-      <h4>Spatial Mapping</h4>
+      <h4>2. Case Study II Comparison of Pizza Diameters at Two Outlets</h4>
+      <p>A company wants to determine whether there is a significant difference in pizza diameter between its two outlets in Bandung. The analysis was conducted in stages: a normality test for both data sets, a test for equality of variances (<code>Levene's Test</code>), and then a test for the difference in means (<code>Independent Two-Sample t-Test</code>).</p>
+
+      <p><strong>Step I Test for Normality of the Two Groups:</strong></p>
       <div class="modal-img-box">
-        <img src="/gambar/peta_sebaran.png" alt="Peta Klasifikasi Potensi Kawasan PLTPs" />
-        <p class="caption">Figure 1: Pemetaan Spasial Hasil Klasifikasi Potensi Kawasan Pembangunan PLTPs</p>
+        <img src="/gambar/gerai-pizza-normalitas-dua-gerai.png" alt="Normality Test for Making Units 1 and 2" />
+        <p class="caption">Figure 2: Shapiro Test on Making Unit 1 & Making Unit 2</p>
       </div>
-      <p><strong>Key Insights:</strong></p>
       <ul>
-      <li>Spatial mapping of the classification results shows a polarized pattern: high-potential areas are concentrated in the northeastern part of the Minahasa Peninsula, particularly in the waters of <strong>Bitung</strong> and <strong>Lembeh Strait</strong>, which feature narrow sea lanes with relatively fast currents.</li>
-      <li><strong>Likupang</strong> was also identified as an additional priority zone, given its proximity to adequate electrical infrastructure.</li>
-      <li>Areas with low potential are predominantly found in the open bays to the south and west, where currents tend to be slower.</li>
+        <li>Making Unit 1: p-value 0.32 (> 0.05) → the data are normally distributed.</li>
+        <li>Making Unit 2: p-value 0.52 (> 0.05) → the data are normally distributed.</li>
       </ul>
 
-      <hr />
-
-      <h4>My Contribution</h4>
+      <p><strong>Step II Test for Equality of Variances (Levene's Test):</strong></p>
+      <div class="modal-img-box">
+        <img src="/gambar/gerai-pizza-levene-varians.png" alt="Results of the Levene Test of Variances" />
+        <p class="caption">Figure 3: Results of Levene's Test for Equality of Variances Between the Two Outlets</p>
+      </div>
       <ul>
-        <li><strong>Exploratory Data Analysis (EDA):</strong> Conducted data quality analysis, handled over 1.2 million missing values, removed duplicates, detected outliers using box plots, and characterized tidal phenomena.</li>
-        <li><strong>Data Preparation & Feature Engineering:</strong> Converting raster data to tabular format (.tif & .nc), calculating current velocity magnitude vectors, performing spatial merging using the Nearest Neighbor Join method, and designing a target labeling scheme (Energy Score) that combines technical and economic aspects.</li>
+      <li>p-value = 1.0 (> 0.05) → the variances of the two outlets are relatively similar, so there is no indication of a significant difference in terms of data distribution.</li>
+      </ul>
+
+      <p><strong>Step III Two-Sample t-Test (Equal Variances):</strong></p>
+      <div class="modal-img-box">
+        <img src="/gambar/gerai-pizza-ttest-2sample.png" alt="Hasil Uji t 2 Sampel" />
+        <p class="caption">Figure 4: Results of the Independent Two-Sample t-Test</p>
+      </div>
+      <ul>
+        <li>Since the data are normally distributed and have homogeneous variances, an independent t-test was used with the assumption <code>equal_var=True</code>.</li>
+      <li>p-value = 1.0 (> 0.05) → H0 cannot be rejected.</li>
       </ul>
 
       <hr />
 
       <h4>Final Results</h4>
       <ul>
-        <li>A high-performance spatial classification model was successfully developed (XGBoost: 97.97% accuracy, 96.96% Kappa Score), outperforming the other two comparison models (RF and SVM) across all evaluation metrics.</li>
-        <li>Model interpretation using PFI and SHAP confirmed that maximum current velocity is the primary determinant of energy potential, supported by distance to the power grid, tidal range, and sea depth as contributing factors—this validation reinforces that the model is not only statistically accurate but also aligned with the principles of oceanographic physics.</li>
-        <li>This project successfully qualified as a delegate for the GEMASTIK XVIII 2025 Preliminary Round, validating the feasibility of the CRISP-DM-based methodology at the national competition level, while also producing a map of recommended priority areas (see the Spatial Mapping section) that can be directly utilized by the government and investors in planning marine energy infrastructure.</li>
+        <li>The pizza diameters in both groups were found to be normally distributed, validating the use of parametric tests.</li>
+        <li>No significant difference was found in pizza diameter between Outlet A and Outlet B, indicating good production consistency at both locations.</li>
+        <li>These results provide a recommendation to the operations team that pizza size standards are consistent across outlets and do not require further intervention in the production process.</li>
       </ul>
     `,
-    tools: ['Python', 'XGBoost', 'Random Forest', 'SVM', 'Rasterio', 'Xarray', 'Geopandas', 'SHAP', 'CRISP-DM', 'Geospatial Analysis'],
+    tools: ['Python', 'SciPy', 'Pandas', 'Inferential Statistics', 'Jupyter Notebook'],
   },
   {
     id: 5,
